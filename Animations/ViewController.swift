@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         logoImageView.image = UIImage(named: "noLogo")
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.alpha = 0
+        self.logoImageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
         self.view.addSubview(logoImageView)
         
         logoImageView.snp.makeConstraints { (make) in
@@ -43,7 +44,6 @@ class ViewController: UIViewController {
         loginTextField.insetsLayoutMarginsFromSafeArea = true
         loginTextField.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
         self.view.addSubview(loginTextField)
-        
         
         loginTextField.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(-400)
@@ -70,7 +70,6 @@ class ViewController: UIViewController {
             make.width.equalTo(loginTextField.snp.width)
         }
         
-        
         changeButton = UIButton(type: .system)
         changeButton.setTitle("Sign In", for: .normal)
         changeButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
@@ -87,7 +86,6 @@ class ViewController: UIViewController {
             make.height.equalTo(loginTextField.snp.height)
             make.width.equalTo(loginTextField.snp.width)
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -121,6 +119,10 @@ class ViewController: UIViewController {
         UIView.animate(withDuration: 1.0, delay: 0.5, options: [.curveEaseOut], animations: {
             self.passwordTextField.alpha = alpha
             self.view.layoutIfNeeded()
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 1, delay: 0.3, options: .curveEaseInOut, animations: { () -> Void in
+            self.logoImageView.transform = CGAffineTransform(rotationAngle: 2 * CGFloat.pi)
         }, completion: nil)
     }
 
