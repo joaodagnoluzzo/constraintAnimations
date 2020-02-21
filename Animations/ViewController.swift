@@ -12,8 +12,8 @@ import SnapKit
 class ViewController: UIViewController {
 
     var logoImageView: UIImageView!
-    var loginLabel: UITextField!
-    var passwordLabel: UITextField!
+    var loginTextField: UITextField!
+    var passwordTextField: UITextField!
     var changeButton: UIButton!
     
     override func viewDidLoad() {
@@ -26,25 +26,26 @@ class ViewController: UIViewController {
         self.view.addSubview(logoImageView)
         
         logoImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(100)
+            let top = UIScreen.main.bounds.height / 8
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(top)
             make.centerX.equalTo(self.view.safeAreaLayoutGuide.snp.centerX)
             let width = UIScreen.main.bounds.width - 150
             make.width.equalTo(width)
             make.height.equalTo(120)
         }
         
-        loginLabel = UITextField(frame: CGRect.zero)
-        loginLabel.placeholder = "login"
-        loginLabel.textAlignment = .left
-        loginLabel.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
-        loginLabel.alpha = 0
-        loginLabel.layer.cornerRadius = 10
-        loginLabel.insetsLayoutMarginsFromSafeArea = true
-        loginLabel.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
-        self.view.addSubview(loginLabel)
+        loginTextField = UITextField(frame: CGRect.zero)
+        loginTextField.placeholder = "login"
+        loginTextField.textAlignment = .left
+        loginTextField.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
+        loginTextField.alpha = 0
+        loginTextField.layer.cornerRadius = 10
+        loginTextField.insetsLayoutMarginsFromSafeArea = true
+        loginTextField.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
+        self.view.addSubview(loginTextField)
         
         
-        loginLabel.snp.makeConstraints { (make) in
+        loginTextField.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(-400)
             make.top.equalTo(logoImageView.snp.bottom).offset(30)
             make.height.equalTo(40)
@@ -52,21 +53,21 @@ class ViewController: UIViewController {
             make.width.equalTo(width)
         }
         
-        passwordLabel = UITextField(frame: CGRect.zero)
-        passwordLabel.placeholder = "password"
-        passwordLabel.textAlignment = .left
-        passwordLabel.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
-        passwordLabel.alpha = 0
-        passwordLabel.isSecureTextEntry = true
-        passwordLabel.layer.cornerRadius = 10
-        passwordLabel.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
-        self.view.addSubview(passwordLabel)
+        passwordTextField = UITextField(frame: CGRect.zero)
+        passwordTextField.placeholder = "password"
+        passwordTextField.textAlignment = .left
+        passwordTextField.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
+        passwordTextField.alpha = 0
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.layer.cornerRadius = 10
+        passwordTextField.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0);
+        self.view.addSubview(passwordTextField)
         
-        passwordLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(loginLabel.snp.bottom).offset(10)
+        passwordTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(loginTextField.snp.bottom).offset(10)
             make.centerX.equalTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(-400)
-            make.height.equalTo(loginLabel.snp.height)
-            make.width.equalTo(loginLabel.snp.width)
+            make.height.equalTo(loginTextField.snp.height)
+            make.width.equalTo(loginTextField.snp.width)
         }
         
         
@@ -81,10 +82,10 @@ class ViewController: UIViewController {
         
         self.view.addSubview(changeButton)
         changeButton.snp.makeConstraints { (make) in
-            make.top.equalTo(passwordLabel.snp.bottom).offset(500)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(500)
             make.centerX.equalTo(self.view.safeAreaLayoutGuide.snp.centerX)
-            make.height.equalTo(loginLabel.snp.height)
-            make.width.equalTo(loginLabel.snp.width)
+            make.height.equalTo(loginTextField.snp.height)
+            make.width.equalTo(loginTextField.snp.width)
         }
         
     }
@@ -99,26 +100,26 @@ class ViewController: UIViewController {
         let buttonOffset: Int = 20
         let alpha: CGFloat = 1
         
-        self.loginLabel.snp.updateConstraints { (make) in
+        self.loginTextField.snp.updateConstraints { (make) in
             make.centerX.equalTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(labelsOffset)
         }
         self.changeButton.snp.updateConstraints { (make) in
-            make.top.equalTo(self.passwordLabel.snp.bottom).offset(buttonOffset)
+            make.top.equalTo(self.passwordTextField.snp.bottom).offset(buttonOffset)
         }
         
         UIView.animate(withDuration: 1.0, delay: 0.3, options: [.curveEaseOut], animations: {
-            self.loginLabel.alpha = alpha
+            self.loginTextField.alpha = alpha
             self.changeButton.alpha = alpha
             self.logoImageView.alpha = alpha
             self.view.layoutIfNeeded()
         }, completion: nil)
         
-        self.passwordLabel.snp.updateConstraints { (make) in
+        self.passwordTextField.snp.updateConstraints { (make) in
             make.centerX.equalTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(labelsOffset)
         }
         
         UIView.animate(withDuration: 1.0, delay: 0.5, options: [.curveEaseOut], animations: {
-            self.passwordLabel.alpha = alpha
+            self.passwordTextField.alpha = alpha
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
@@ -126,6 +127,8 @@ class ViewController: UIViewController {
     @objc
     func signIn(){
         print("Trying to sign in")
+        if loginTextField.isFirstResponder { loginTextField.resignFirstResponder() }
+        if passwordTextField.isFirstResponder { passwordTextField.resignFirstResponder() }
     }
 }
 
