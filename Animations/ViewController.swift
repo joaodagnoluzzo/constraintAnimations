@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         self.view.addSubview(logoImageView)
         
         logoImageView.snp.makeConstraints { (make) in
-            let top = UIScreen.main.bounds.height / 8
+            let top = UIScreen.main.bounds.height / 9
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(top)
             make.centerX.equalTo(self.view.safeAreaLayoutGuide.snp.centerX)
             let width = UIScreen.main.bounds.width - 150
@@ -47,7 +47,7 @@ class ViewController: UIViewController {
         
         loginTextField.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(-400)
-            make.top.equalTo(logoImageView.snp.bottom).offset(30)
+            make.top.equalTo(logoImageView.snp.bottom).offset(50)
             make.height.equalTo(40)
             let width = UIScreen.main.bounds.width - 80
             make.width.equalTo(width)
@@ -105,25 +105,33 @@ class ViewController: UIViewController {
             make.top.equalTo(self.passwordTextField.snp.bottom).offset(buttonOffset)
         }
         
-        UIView.animate(withDuration: 1.0, delay: 0.3, options: [.curveEaseOut], animations: {
+        UIView.animate(withDuration: 1.0, delay: 0.3, usingSpringWithDamping: 0.5, initialSpringVelocity: 4, options: .curveEaseOut, animations: {
             self.loginTextField.alpha = alpha
             self.changeButton.alpha = alpha
             self.logoImageView.alpha = alpha
             self.view.layoutIfNeeded()
-        }, completion: nil)
+        }, completion: { _ in
+            
+        })
         
         self.passwordTextField.snp.updateConstraints { (make) in
             make.centerX.equalTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(labelsOffset)
         }
         
-        UIView.animate(withDuration: 1.0, delay: 0.5, options: [.curveEaseOut], animations: {
+        UIView.animate(withDuration: 1.0, delay: 0.5, usingSpringWithDamping: 0.5, initialSpringVelocity: 4, options: .curveEaseOut, animations: {
             self.passwordTextField.alpha = alpha
             self.view.layoutIfNeeded()
         }, completion: nil)
         
-        UIView.animate(withDuration: 1, delay: 0.3, options: .curveEaseInOut, animations: { () -> Void in
+        UIView.animate(withDuration: 1, delay: 0.3, options: .curveEaseInOut, animations: {
             self.logoImageView.transform = CGAffineTransform(rotationAngle: 2 * CGFloat.pi)
-        }, completion: nil)
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.5, delay: 0, options: .autoreverse, animations: {
+                self.logoImageView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }, completion: { _ in
+                self.logoImageView.transform = .identity
+            })
+        })
     }
 
     @objc
